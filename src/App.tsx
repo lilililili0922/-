@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 
 import { MarkerHighlight } from './components/ui/marker-highlight';
+import { PDFViewer } from './components/ui/pdf-viewer';
 
 const ROLES = [
   { text: "交互设计师", bg: "#bbf7d0" },
@@ -93,12 +94,41 @@ export default function App() {
             >
               ← 返回作品列表
             </button>
-            <div className="w-full bg-[#eaeaeb] rounded-2xl overflow-hidden p-2 md:p-8">
-              <img 
-                src={`/${selectedProject}_detail.png`}
-                alt="项目详情" 
-                className="w-full h-auto object-cover rounded-xl shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)]" 
-              />
+            <div className="w-full bg-[#eaeaeb] rounded-2xl overflow-hidden p-2 md:p-8 flex flex-col gap-4 md:gap-8 min-h-[500px]">
+              {/* 这里可以配置你的详情页内容，支持直接放一个 PDF！它会整页平铺下来。
+                  如果你想使用PDF：请将PDF上传到左侧的 public 文件夹中，然后在这里配置路径。 */}
+              {(() => {
+                // 如果你上传了 PDF，可以在这里指定路径，比如 ['/project1.pdf']
+                // 如果没有指定，默认也会退回到显示对应的 .png
+                const projectFiles: Record<string, string[]> = {
+                  'project1': ['/my_portfolio1.pdf'], // 示例：这里可以写 ['/your_file.pdf']
+                  'project2': ['/project2_detail.png'],
+                  'project3': ['/project3_detail.png'],
+                };
+                
+                const files = projectFiles[selectedProject as string] || [`/${selectedProject}_detail.png`];
+                
+                return files.map((fileSrc, index) => {
+                  if (fileSrc.toLowerCase().endsWith('.pdf')) {
+                    return (
+                      <PDFViewer 
+                        key={index} 
+                        file={fileSrc} 
+                        fallbackImage={`/${selectedProject}_detail.png`} 
+                      />
+                    );
+                  }
+                  return (
+                    <img 
+                      key={index}
+                      src={fileSrc}
+                      alt={`项目详情 ${index + 1}`} 
+                      className="w-full h-auto object-cover rounded-xl shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)]" 
+                      referrerPolicy="no-referrer"
+                    />
+                  );
+                });
+              })()}
             </div>
           </div>
         ) : activeTab === 'works' ? (
