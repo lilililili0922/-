@@ -14,7 +14,6 @@ export function PDFViewer({ file, fallbackImage }: { file: string, fallbackImage
   }
 
   function onDocumentLoadError(e: any) {
-    console.error(e);
     setError(true);
   }
 
@@ -29,13 +28,25 @@ export function PDFViewer({ file, fallbackImage }: { file: string, fallbackImage
     return () => observer.disconnect();
   }, []);
 
-  if (error && fallbackImage) {
+  if (error) {
+    if (fallbackImage) {
+      return (
+        <div className="w-full">
+          <div className="p-4 bg-red-50 text-red-500 text-sm text-center mb-4 rounded-xl">
+            PDF文件加载失败（由于文件为空或损坏），当前正在显示后备图片。请在左侧 public 文件夹中上传真实的 PDF 文件。
+          </div>
+          <img
+            src={fallbackImage}
+            alt="项目详情 fallback"
+            className="w-full h-auto object-cover overflow-hidden shadow-sm"
+          />
+        </div>
+      );
+    }
     return (
-      <img
-        src={fallbackImage}
-        alt="项目详情 fallback"
-        className="w-full h-auto object-cover overflow-hidden shadow-sm"
-      />
+      <div className="p-10 w-full text-center text-red-500 bg-red-50 rounded-xl">
+        无法加载 PDF 文件，请确保上传了真实的 PDF 文件而不是新建空文件。
+      </div>
     );
   }
 

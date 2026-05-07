@@ -94,7 +94,7 @@ export default function App() {
             >
               ← 返回作品列表
             </button>
-            <div className="w-full bg-[#eaeaeb] rounded-2xl overflow-hidden p-2 md:p-8 flex flex-col gap-4 md:gap-8 min-h-[500px]">
+            <div className="w-full bg-[#eaeaeb] overflow-hidden flex flex-col min-h-[500px]">
               {/* 这里可以配置你的详情页内容，支持直接放一个 PDF！它会整页平铺下来。
                   如果你想使用PDF：请将PDF上传到左侧的 public 文件夹中，然后在这里配置路径。 */}
               {(() => {
@@ -102,8 +102,8 @@ export default function App() {
                 // 如果没有指定，默认也会退回到显示对应的 .png
                 const projectFiles: Record<string, string[]> = {
                   'project1': ['/my_portfolio1.pdf'], // 示例：这里可以写 ['/your_file.pdf']
-                  'project2': ['/project2_detail.png'],
-                  'project3': ['/project3_detail.png'],
+                  'project2': ['/my_portfolio2.pdf'],
+                  'project3': Array.from({ length: 45 }, (_, i) => `/projrct1_picture/${i + 1}.png`),
                 };
                 
                 const files = projectFiles[selectedProject as string] || [`/${selectedProject}_detail.png`];
@@ -123,8 +123,7 @@ export default function App() {
                       key={index}
                       src={fileSrc}
                       alt={`项目详情 ${index + 1}`} 
-                      className="w-full h-auto object-cover rounded-xl shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)]" 
-                      referrerPolicy="no-referrer"
+                      className="w-full h-auto object-cover block" 
                     />
                   );
                 });
@@ -218,7 +217,6 @@ export default function App() {
                       src="/project1.png" 
                       alt="UX/UI设计项目" 
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" 
-                      referrerPolicy="no-referrer" 
                     />
                     {/* Gradient Overlay for Text Visibility */}
                     <div className="absolute inset-0 bg-gradient-to-t from-[rgba(17,17,17,0.85)] via-[rgba(17,17,17,0.1)] to-[rgba(17,17,17,0.3)] opacity-90 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -245,7 +243,6 @@ export default function App() {
                       src="/project2.png" 
                       alt="视觉项目" 
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" 
-                      referrerPolicy="no-referrer" 
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[rgba(17,17,17,0.85)] via-[rgba(17,17,17,0.1)] to-[rgba(17,17,17,0.3)] opacity-90 group-hover:opacity-100 transition-opacity duration-300"></div>
                     
@@ -271,7 +268,6 @@ export default function App() {
                       src="/project3.png" 
                       alt="我的日常" 
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" 
-                      referrerPolicy="no-referrer" 
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[rgba(17,17,17,0.85)] via-[rgba(17,17,17,0.1)] to-[rgba(17,17,17,0.3)] opacity-90 group-hover:opacity-100 transition-opacity duration-300"></div>
                     
